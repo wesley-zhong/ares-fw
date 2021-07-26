@@ -1,0 +1,418 @@
+syntax = "proto3";
+option go_package = "/gen";
+option java_outer_classname = "CommonProto";
+package msg;
+
+enum MsgId {
+  BEGIN = 0;
+  HEARTBEAT_REQ = 2; //heartbeat
+  ENTER_ROOM_REQ = 5000; //user enter room request
+  ENTER_ROOM_RES = 5001; // user enter room response
+  ENTER_ROOM_MSG = 5002; //  msg to others user enter room broadcast
+
+  GAME_READY_REQ = 5100; // user ready request
+  GAME_READY_RES = 5101; // user ready response
+  GAME_READY_MSG = 5102; // user ready  msg broadcast
+  USER_STATUS_CHANE_MSG = 5111;
+
+
+  GMAE_START_MSG = 5203;
+
+  LEAVE_ROOM_REQ = 5300; //  user leave room request
+  LEAVE_ROOM_RES = 5301; // user leave room response
+  LEAVE_ROOM_MSG = 5302;
+
+  USER_OPT_MSG = 5402; //   user option msg broadcast
+
+  BATTLE_RESULT_INFI_REQ = 5403;
+  BATTLE_STATUS_DATA_REQ = 5405;
+  BATTLE_SOME_ONE_NOT_REAY = 5406;
+
+  BATTLE_ROOM_MASTER_CHANGE_MSG = 5409;
+
+  INSTANTIATE_MSG = 5410;// instantiate GameObject
+
+  USER_MOVE_POS = 6000;
+  USER_CHANGE_ROTATOR = 6001;
+  USER_ANIMATION = 60002;
+
+
+  GAME_FINISH = 5500;
+}
+
+message ErroCode {
+  uint32 error = 1;
+}
+
+enum EventId{
+  EVENT_BEGIN = 0;
+  Activate = 10000;
+  ActivateAbility = 10001;
+  ActivateBonusObjective = 10002;
+  ActivateEscape = 10003;
+  ActivateWall = 10004;
+  AddCollectibleObject = 10005;
+  AddEffectOverTimeRPC = 10006;
+  ApplyAreaEffect = 10007;
+  BeginEndGame = 10008;
+  BeginStateApproachFoodState = 10009;
+  CancelEmoteAnim = 10010;
+  ChangeFlareState = 10011;
+  ChangeMaterialRPC = 10012;
+  ChangeNumberRPC = 10013;
+  ClearEffectRPC = 10014;
+  ClickRpc = 10015;
+  ColorAssignedRPC = 10016;
+  ConfirmHit = 10017;
+  Consume = 10018;
+  ConsumeItem = 10019;
+  DebugSpawnObjectRPC = 10020;
+  DelayedSetupForRevive = 10021;
+  DestroyRpc = 10022;
+  Died = 10023;
+  DisableAnimRPC = 10024;
+  DisableMeshes = 10025;
+  DisableObjectiveLocator = 10026;
+  DisableRadioOption = 10027;
+  DoConsumeEquippedItem = 10028;
+  DoExplosion = 10029;
+  DoLook = 10030;
+  DoPuke = 10031;
+  DoRoar = 10032;
+  DoSetToIdle = 10033;
+  DoShowEmote = 10034;
+  DoShowTruthSerumBanner = 10035;
+  DoSyncCurrentPressTime = 10036;
+  EnableCollectibleObjectsRPC = 10037;
+  EndPuke = 10038;
+  EndStateApproachFoodState = 10039;
+  EquipGameObjectInCurrentSlot = 10040;//这个协议没有用到
+  EscapeReady = 10041;
+  ForceBunkerOpenRPC = 10042;
+  ForceReady = 10043;
+  FreeFromTrap = 10044;
+  GameOver = 10045;
+  HideGameObject = 10046;
+  HostDisconnectRPC = 10047;//这个协议没有用到
+  InitDeadAnimal = 10048;
+  InitForAttackWave = 10049;
+  InitHerd = 10050;
+  InitializeInventory = 10051;
+  InitiateRematchRPC = 10052;
+  InitiateTask = 10053;
+  InitiateTeleport = 10054;
+  InitInventory = 10055;
+  KillFromConversion = 10056;
+  LockConsoleRPC = 10057;
+  LogDamageEvent = 10058;
+  LogFallDamage = 10059;
+  MarkInUseBy = 10060;
+  MarkSabotaged = 10061;
+  MarkWaveComplete = 10062;
+  MigrateAiUnits = 10063;
+  NotifyEscapeLeft = 10064;
+  NotifyLockChange = 10065;
+  NotifyPlayerAffectedRPC = 10066;
+  NotifyPlayerBoarded = 10067;
+  NotifyPlayerDied = 10068;
+  NotifyPlayerDisembarked = 10069;
+  NotifyPlayerIncapacitated = 10070;
+  NotifyPlayerLeft = 10071;
+  NotifySurvivorConverted = 10072;
+  NotifyYetiObjComplete = 10073;
+  ObjectRepaired = 10074;
+  ObjectRepairedRPC = 10075;
+  ObjectSabotaged = 10076;
+  OnAlienArtifactNegative = 10077;
+  OnAlienArtifactPositive = 10078;
+  OnAllTerminalsEnabled = 10079;
+  OnAmmoChanged = 10080;
+  OnApplyTrap = 10081;
+  OnBeginAttackState = 10082;
+  OnBeginCautionState = 10083;
+  OnBeginDamagedState = 10084;
+  OnBeginDeathState = 10085;
+  OnBeginEatingState = 10086;
+  OnBeginImmediatelyReturnToStartState = 10087;
+  OnBeginPatrolState = 10088;
+  OnBeginPursueTargetState = 10089;
+  OnBeginTrappedState = 10090;
+  OnCloneCreature = 10091;
+  OnCloneFailure = 10092;
+  OnCloneFinished = 10093;
+  OnCloneSuccess = 10094;
+  OnCollide = 10095;
+  OnConsumeRPC = 10096;
+  OnConversionProgressDecayed = 10097;
+  OnConversionPulseHit = 10098;
+  OnConvertPlayer = 10099;
+  OnDeploy = 10100;
+  OnDisarm = 10101;
+  OnDoFuel = 10102;
+  OnDoRoarAoE = 10103;
+  OnDrop = 10104;
+  OnEndCautionState = 10105;
+  OnEndDamagedState = 10106;
+  OnEndDraggingPlayer = 10107;
+  OnEndEatingState = 10108;
+  OnEndInvestigateThreatState = 10109;
+  OnEndTrappedState = 10110;
+  OnFearApplied = 10111;
+  OnFearReverted = 10112;
+  OnFinishedDying = 10113;
+  OnGotoRagdoll = 10114;
+  //OnImpactRPC = 10115;
+  OnItemsCrateFound = 10116;
+  OnLabOpened = 10117;
+  OnLogBonusObjectiveCompleteEvent = 10118;
+  OnLogBunkerOpenedEvent = 10119;
+  OnLogHunterRevealedEvent = 10120;
+  OnLogIdentityStealEvent = 10121;
+  OnLogPlayerClonedEvent = 10122;
+  OnLogPlayerDeathEvent = 10123;
+  OnLogSerumLabOpenedEvent = 10124;
+  OnLogUsedTruthSerumEvent = 10125;
+  OnMedicAbilityHit = 10126;
+  OnPadreBoost = 10127;
+  OnPickup = 10128;
+  OnRagdollApplied = 10129;
+  OnRagdollReverted = 10130;
+  OnSetInYellowFlagPoint = 10131;
+  OnSetUsingMainCamera = 10132;
+  OnSleeperAbilityHit = 10133;
+  OnStartDraggingPlayer = 10134;
+  OnStateChange = 10135;
+  OnStealRole = 10136;
+  OnSurvivorAirdropAccessed = 10137;
+  OnSwapBodyDebug = 10138;
+  OnSwapClothes = 10139;
+  OnSwapPlayerClass = 10140;
+  OnSwapPlayerRole = 10141;
+  OnThrow = 10142;
+  OnTranquilizationApplied = 10143;
+  OnTranquilizationReverted = 10144;
+  OnTriggerAltPFX = 10145;
+  OpenBunkers = 10146;
+  Overload = 10147;
+  PlayAbsorbPfxForTraitor = 10148;
+  PlayEmoteAnim = 10149;
+  PlayerDisconnected = 10150;
+  PlayFeedbackSfx = 10151;
+  PlayFireSfx = 10152;
+  PlayGiggleSfxRPC = 10153;
+  PlayReloadSfx = 10154;
+  ProcessDamageEvent = 10155;
+  PunDropChange = 10156;
+  PunHealthChange = 10157;
+  PunHungerChange = 10158; //no  used
+  RematchSelectedRPC = 10159;
+  RemovePfxRPC = 10160;
+  RequestStateChange = 10161;
+  ResetDisplayTextRPC = 10162;
+  Revive = 10163;
+  RotateSign = 10164;
+  SabotageEscapeRPC = 10165;
+  SendSetGroundState = 10166;
+  SetAbility = 10167;
+  SetBeaconStateRPC = 10168;
+  SetCurrentNode = 10169;
+  SetDropPosition = 10170;
+  SetEffectRPC = 10171;
+  SetLeaderViewId = 10172;
+  SetStartHealthForAll = 10173;
+  SetStateID = 10174;
+  SetTerminalsCount = 10175;
+  SetTimerFinishedRPC = 10176;
+  SetUnitActivation = 10177;
+  SetupKnockdownState = 10178;
+  SetVulnerableToConversion = 10179;
+  SetWaveIndex = 10180;
+  ShowGameObject = 10181;
+  ShowSabotagedIndicator = 10182;
+  ShowSabotageIconRPC = 10183;
+  SourceItemSyncValue = 10184;
+  SpawnGasBubbleRPC = 10185;
+  SpawnParticles = 10186;
+  SpreadMadnessRPC = 10187;
+  StartEvent = 10188;
+  StartLeaveSequence = 10189;
+  StopEvent = 10190;
+  SyncDisableGlobalEvents = 10191;
+  SyncFirstObjectiveOverride = 10192;
+  SyncMVPStats = 10193;
+  SyncOverrideGameSetting = 10194;
+  SyncPreSelectedBonusObjective = 10195;
+  SyncPreSelectedPlayerRole = 10196;
+  SyncPreSelectedTraitors = 10197;//工程未用到
+  SyncReviveTimer = 10198;//有RPC标注，但是没有调用
+  SyncStatRPC = 10199;
+  ToggleIndicator = 10200;
+  TrackAnimalFedRPC = 10201;
+  TrapAndReleaseRPC = 10202;
+  TriggerAreaEffectRPC = 10203;
+  TriggerPfxRPC = 10204;
+  UdpdateRadioSlot = 10205;
+  UdpdateSlots = 10206;
+  UpdateBonusObjectiveStatus = 10207;
+  UpdateContributorsRPC = 10208;
+  UpdateConversionProgress = 10209;
+  UpdateHealth = 10210;
+  UpdateInventory = 10211;
+  UpdateKeypadStateRPC = 10212;
+  UpdateLockStatus = 10213;
+  UpdateMuscle = 10214;
+  UpdateNumberOfTraitors = 10215;
+  UpdatePlayerState = 10216;
+  UpdatePoints = 10217;
+  UpdateReadyCount = 10218;
+  UpdateSlots = 10219;
+  UpdateTaskUI = 10220;
+  UpdateVoting = 10221;
+  OpenCloseDoor = 10222;
+  BackpackCrafted = 10223;
+  OnBackpackStolen = 10224;
+  SyncProximityVoiceSettingsRPC = 10225;
+  HideNameplateRPC = 10226;
+  ShowNameplateRPC = 10227;
+  KillInstantlyRPC = 10228;
+  OnSabotageInAdvance = 10229;
+  Sabotage = 10230;
+  MoveItemRPC = 10231;
+  SourceItemSyncValueList = 10232;
+  OnImpactRPCProjectile = 10233;
+  OnImpactRPCThrowable = 10234;
+  
+}
+
+
+enum PlayerStatusEnum {
+  NO_CONNECTED = 0;
+  CONNECTED = 1;
+  READY = 2;
+  PLAY = 3;
+  LOST_CONNECTED = 4;
+  LEAVE = 5;
+  FINISHED = 6;
+}
+
+enum RpcTarget {
+  All = 0;
+  Others = 1; 
+  MasterClient = 2; 
+  AllBuffered = 3; 
+  OthersBuffered = 4; 
+  AllViaServer = 5; 
+  AllBufferedViaServer = 6;
+}
+
+
+enum ErrorCodeEnum {
+  SUCCESS = 0;
+  ROOM_NOT_EXIST = 1;
+  PLAYER_NOT_EXIST = 2;
+  TOKEN_INVALID = 3;
+}
+
+/**
+(System.String)SettingIndex=(System.Int32)0
+ (System.String)Seed=(System.Int32)189321774
+ (System.String)language=(System.String)Simplified Chinese
+ (System.String)no_password=(System.String)
+ (System.String)GameMode=(System.Int32)0
+ (System.String)DLCMode=(System.Int32)0
+ (System.String)LR=(System.Boolean)False
+ (System.String)RematchVersion=(System.Int32)0
+ (System.String)NumRematchPlayers=(System.Int32)0
+ (System.String)XPLAY=(System.Boolean)False
+ (System.String)PLAT=(System.String)STEAM
+ (System.String)CreatorId=(System.String)STEAM!Edginess
+ (System.String)CreatorName=(System.String)Nomad-431589
+ (System.String)ExpectedMaster=(System.String)9ea72bcd-a673-43b4-b1d7-3d8982f03195
+
+ */
+
+message  RoomInfo{
+  int32 settingIndex = 1;
+  int32 seed = 2;
+  string language = 3;
+  string noPassword = 4;
+  int32 gameMode = 5;
+  int32  dlcMode = 6;
+  bool  lr = 7;
+  int32 rematchVersion = 8;
+  int32  numRematchPlayers = 9;
+  bool  xplay = 10;
+  string plat = 11;
+  // string creatorId = 12;  changed to creator pid
+  int64 creatorPid = 12;
+  string  creatorName = 13;
+  string roomId = 14;
+  int64  battleId = 15;
+  int32 sc = 16;
+  int64 expectedMaster = 17;//Master Id
+  int32 masterLoaded = 18;
+  string password = 19;
+  ExpandedGameSettings customGameSettings = 20;
+  int64 startTime = 21;//start Time
+  int64 endTime = 22;
+  string kickedPlayers = 23;
+  int32 presetOwner = 24;
+  string presetName = 25;
+  bool devPreset = 26;
+
+}
+
+message  Player{
+  int32  colourIndex = 1;
+  bool  mvpStatsSynced = 2;
+  int32  traitorChance = 3;
+  string  vivoxId = 4;
+  string uniqueId = 5;
+  bool  isBeginner = 6;
+  bool  isSamePlatform = 7;
+  bool  isLocal = 8;
+  int64  actorNumber = 9; ;//room player index
+  int64 pid = 10;
+  PlayerStatusEnum  status = 11;
+  string playerName = 12;
+  bool readyStatus = 13;
+  int32 playerColor = 14;//PC
+  bool loadStatus = 15;
+  bool levelManagerExists = 16;
+  bool playersReadyToPlay = 17;
+  int32 socialRatingScore = 18;
+  //int32 traitorChance=19;
+  bool firstTimeUser = 20;
+  string platForm = 21;
+  string boolPuddle = 22;
+}
+
+message ExpandedGameSettings{
+  //这里数据比较多...
+}
+message   UserRotator{
+  int64  value = 1;
+  int64  sender = 2;
+}
+
+message  UserPos{
+  int64  value = 1;
+  int64   sender = 2;
+}
+//object[]传递
+message ByteStringArray{
+    repeated  bytes dataList=1;
+}
+//实例化Object的参数
+message InstantiateParameters{
+ repeated int32 viewIDs=1;
+ int32 objLevelPrefix=2;
+ ByteStringArray data=3;
+ int32 group=4;
+ int32 rotation=5;
+ int64 position=6;
+ string prefabName=7;
+ Player creator=8;
+ int32 timestamp=9;
+ bool sceneObject=10;
+ }

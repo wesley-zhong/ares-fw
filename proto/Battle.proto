@@ -1,0 +1,105 @@
+syntax = "proto3";
+option go_package = "/gen";
+option java_outer_classname = "BattleProto";
+package msg;
+import  public "Common.proto";
+
+/*enter room */
+message EnterRoomReq {
+  string roomId = 1; //roomId
+  uint32 battleId = 2;
+  int64 pid = 3; // 用户唯一id
+  string token = 4; // 用户token
+}
+
+/**
+user enter room reponse
+*/
+
+message EnterRoomRes {
+  ErrorCodeEnum code = 1; //错误码  0: success  other error
+  RoomInfo roomInfo = 2;
+  repeated Player players = 3;
+}
+
+/**
+user enter room msg to broadcast
+*/
+message EnterRoomMsg {
+  int64 pid = 1;
+}
+/**
+ game ready  request
+*/
+
+message GameReadyRes {
+  ErrorCodeEnum code = 1; //错误码  0: success  other error
+}
+message PlayerStatus {
+  int64 pid = 1;
+  PlayerStatusEnum status = 2;
+}
+
+
+message GameReadyMsg {
+  repeated PlayerStatus playerStatus = 1;
+}
+
+/**
+ leave room response
+*/
+message LeaveRoomRes {
+  ErrorCodeEnum code = 1; //错误码  0: success  other error
+}
+message LeaveRoomMsg {
+  int64 pid = 1;
+  int32 leaveCount = 2;
+}
+
+message RoomMasterChangeMsg {
+  int64 master = 1;
+}
+
+/**
+broadcast game start msg
+*/
+message GameStartMsg {
+  int64 serverTime = 1;
+}
+
+/**
+  broadcast  user optionals
+  photon  rpc  msg
+*/
+
+message UserOptMsg {
+  RpcTarget target = 1;
+  EventId  eventId =2;
+  int32 rpcId=3;
+  int64 sender = 4;
+  bytes opts = 5; //rpc  message
+}
+
+
+
+
+
+message UserAnimationMsg{
+
+}
+
+message  BattleSynchronizationMsg{
+
+}
+
+message  BattleResultInfoReq{
+
+}
+
+message  BattleStatusData{
+
+}
+//实例化消息
+message InstantiateMsg{
+	InstantiateParameters instantiate=1;
+}
