@@ -12,12 +12,6 @@ import (
 
 // }
 
-func funtest(param *interface{}) {
-	// /req := new(gen.EnterRoomReq)
-	//proto.Unmarshal( byte{"aaaa"}, req)
-
-}
-
 func callEnterRoomReq(message *proto.Message) {
 	enterRoomMsg := (*message).(*gen.EnterRoomReq)
 	log.Info("enterRoomMsg= ", enterRoomMsg.RoomId, " addr= ", message)

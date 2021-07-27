@@ -43,19 +43,13 @@ type MsgIdMethod struct {
 }
 
 func (msgIdMethod *MsgIdMethod) Call(bytebuffer *bytes.Buffer) {
-	paramType := reflect.TypeOf(msgIdMethod.param)
-	rfparams := reflect.New(paramType.Elem())
-	params := rfparams.Interface()
-	log.Info("===== kind = "+rfparams.Kind().String()+"params =", params)
-	var messageParam proto.Message
-	//messageParam = params
-
+	messageParam := msgIdMethod.param
 	err := proto.Unmarshal(bytebuffer.Bytes(), messageParam)
 	if err != nil {
 		log.Error("proto parse failed", err)
 		return
 	}
-	msgIdMethod.callFun(params.(*proto.Message))
+	msgIdMethod.callFun(&messageParam)
 }
 
 type Core struct {
@@ -99,7 +93,6 @@ func (core *Core) RegisterController(contoller interface{}) {
 		numIn := mt.NumIn()
 		for j := 0; j < numIn; j++ {
 			param := mt.In(j)
-			fmt.Println("++++++pramtype = " + param.Elem().Name())
 			aresMethod.ParamsType = param.Elem()
 		}
 		val.addMethod(&aresMethod)
@@ -111,7 +104,6 @@ func (srviceMethods *ServiceMethods) addMethod(aresMethod *AresMethod) {
 		srviceMethods.AresMethodsMap = map[string]*AresMethod{}
 	}
 	srviceMethods.AresMethodsMap[aresMethod.MethodName] = aresMethod
-
 }
 
 func (core *Core) GetCallFun(serviceName string, methodName string) *AresMethod {

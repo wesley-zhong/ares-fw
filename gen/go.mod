@@ -1,4 +1,5 @@
-module  netease.com/gen
-
+module netease.com/gen
 
 go 1.16
+
+require google.golang.org/protobuf v1.27.1
