@@ -16,10 +16,12 @@ func main() {
 	log.Info("main start")
 	webc := &controller.UserLogin{}
 
-	//init rpc
 	coreInst := core.Core{}
 	coreInst.Init()
+
+	//init msgId call
 	controller.Register(&coreInst)
+	//init rpc
 	coreInst.RegisterController(webc)
 	//init dal
 	dal.InitRedis("192.168.94.138:6379", "")
