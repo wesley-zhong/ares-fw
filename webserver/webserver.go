@@ -3,11 +3,15 @@ package webserver
 import (
 	"net/http"
 	"reflect"
+	"strings"
 
 	"github.com/gin-gonic/gin"
+	jsoniter "github.com/json-iterator/go"
 	log "github.com/sirupsen/logrus"
 	"netease.com/core"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type AresWebapp struct {
 }
@@ -21,20 +25,32 @@ func (webApp *AresWebapp) WebAppStart(coreInst *core.Core, addr string) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(200, gin.H{"data": rpcReq})
 
+		aresMethod := coreInst.GetCallFun(rpcReq.ServiceName, rpcReq.MethodName)
+		if aresMethod == nil {
+			c.JSON(403, "server or method not found")
+			return
+		}
+
+		param := reflect.New(aresMethod.ParamsType)
+		realParam := param.Interface()
+		json.UnmarshalFromString(rpcReq.PayLoad, &realParam)
+		ret := aresMethod.Invoke(realParam)
+		c.JSON(200, ret[0].Elem().Interface())
 	})
 
 	r.POST("/:serviceName/:methodName", func(c *gin.Context) {
 		//inner restful or single server restful
-		var rpcReq core.RpcReq
-		rpcReq.ServiceName = c.Params.ByName("serviceName")
-		rpcReq.MethodName = c.Params.ByName("methodName")
-
-		aresMethod := coreInst.GetCallFun(rpcReq.ServiceName, rpcReq.MethodName)
+		serviceName := strings.ToLower(c.Params.ByName("serviceName"))
+		methodName := strings.ToLower(c.Params.ByName("methodName"))
+		aresMethod := coreInst.GetCallFun(serviceName, methodName)
+		if aresMethod == nil {
+			c.JSON(403, "server or method not found")
+			return
+		}
 		param := reflect.New(aresMethod.ParamsType)
 		realParam := param.Interface()
-		if err := c.ShouldBind(realParam); err != nil {
+		if err := c.ShouldBind(&realParam); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
@@ -44,16 +60,22 @@ func (webApp *AresWebapp) WebAppStart(coreInst *core.Core, addr string) {
 
 	r.POST("/game/:serviceName/:methodName", func(c *gin.Context) {
 		//by proxy such as nginx
-		var rpcReq core.RpcReq
-		rpcReq.ServiceName = c.Params.ByName("serviceName")
-		rpcReq.MethodName = c.Params.ByName("methodName")
-		var body string
-		if err := c.ShouldBind(&body); err != nil {
+
+		serviceName := c.Params.ByName("serviceName")
+		methodName := c.Params.ByName("methodName")
+		aresMethod := coreInst.GetCallFun(serviceName, methodName)
+		if aresMethod == nil {
+			c.JSON(403, "server or method not found")
+			return
+		}
+		param := reflect.New(aresMethod.ParamsType)
+		realParam := param.Interface()
+		if err := c.ShouldBind(&realParam); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		rpcReq.PayLoad = body
-		c.JSON(200, gin.H{"data": rpcReq})
+		ret := aresMethod.Invoke(realParam)
+		c.JSON(200, ret[0].Elem().Interface())
 	})
 	log.Info("start webserver:", addr)
 	r.Run(addr)

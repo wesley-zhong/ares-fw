@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"reflect"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 
@@ -75,8 +76,8 @@ func (core *Core) RegisterController(contoller interface{}) {
 	fmt.Println("methods count = ", methods)
 	for i := 0; i < methods; i++ {
 		method := rtype.Method(i)
-		var serviceName = rtype.Elem().Name()
-		var methodName = method.Name
+		var serviceName = strings.ToLower(rtype.Elem().Name())
+		var methodName = strings.ToLower(method.Name)
 		fmt.Println("---------- method_name = " + methodName + " service_name = " + serviceName)
 		var val *ServiceMethods
 		var ok bool
