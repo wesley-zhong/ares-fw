@@ -7,7 +7,7 @@ import (
 	"netease.com/gen"
 )
 
-// func callEnterRoomReq(enterRoomReq *gen.EnterRoomReq) {
+// func callEnterRoomReq1(enterRoomReq *gen.EnterRoomReq) {
 // 	log.Info("------------ enterRoomReq ", enterRoomReq.RoomId)
 
 // }
