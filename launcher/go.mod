@@ -14,6 +14,10 @@ replace netease.com/reqs => ../reqs
 
 replace netease.com/dal => ../dal
 
+replace netease.com/dto => ../dto
+
+replace netease.com/service => ../service
+
 go 1.16
 
 require (
