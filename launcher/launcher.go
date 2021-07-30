@@ -24,7 +24,7 @@ func main() {
 	//init rpc
 	coreInst.RegisterController(webc)
 	//init dal
-	dal.InitRedis("192.168.94.138:6379", "")
+	dal.InitRedisCluster("192.168.94.138:6379", "")
 	//start tcp server
 	gameServer := new(tcpServer.TcpServer)
 	gameServer.Core = &coreInst

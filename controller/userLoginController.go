@@ -21,5 +21,5 @@ func (*UserLogin) Login(login *reqs.LoginReq) interface{} {
 
 func (*UserLogin) Update(userInfo *dto.UserInfo) interface{} {
 	fmt.Println("user info update username =" + userInfo.UserName)
-	return userInfo
+	return service.LoginService.Add(userInfo)
 }

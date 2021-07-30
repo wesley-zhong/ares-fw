@@ -18,6 +18,8 @@ replace netease.com/dto => ../dto
 
 replace netease.com/service => ../service
 
+replace netease.com/domain => ../domain
+
 go 1.16
 
 require (
@@ -25,6 +27,7 @@ require (
 	netease.com/controller v0.0.0-00010101000000-000000000000
 	netease.com/core v0.0.0-00010101000000-0000000000001
 	netease.com/dal v0.0.0-00010101000000-000000000000
+	netease.com/domain v0.0.0-00010101000000-000000000000 // indirect
 	netease.com/tcpserver v0.0.0-00010101000000-000000000000
 	netease.com/webserver v0.0.0-00010101000000-000000000000
 
