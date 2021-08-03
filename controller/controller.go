@@ -24,7 +24,7 @@ rpc controller register
 */
 
 func RegisterController() {
-	//------------room controller-----------------
+	//------------userLogin controller-----------------
 	webc := &UserLogin{}
 	core.Core.RegisterController(webc)
 }
