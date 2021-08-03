@@ -22,6 +22,7 @@ func main() {
 	controller.Init()
 
 	dal.InitRedisCluster("192.168.94.138:6379", "")
+	dal.InitMongodb("192.168.94.138:27017", "dice_dev_user", "3cdY61jr")
 	//start tcp server
 	gameServer := new(tcpServer.TcpServer)
 	go gameServer.Init("tcp4://:9000")

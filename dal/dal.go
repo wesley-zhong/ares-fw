@@ -33,16 +33,21 @@ func InitRedisCluster(addr string, password string) {
 	})
 }
 
-func InitMongodb(addr string, password string) {
+func InitMongodb(addr string, account string, password string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://"+addr))
+	opts := options.Client()
+	opts.ApplyURI("mongodb://" + addr)
+	opts.Auth = &options.Credential{}
+	opts.Auth.Username = account
+	opts.Auth.Password = password
+	client, err := mongo.Connect(ctx, opts)
 	MongoClient = client
 	if err != nil {
 		log.Error("connect ", addr, " failed")
 	}
 }
 
-func getCollection(dbName string, connName string) *mongo.Collection {
+func GetCollection(dbName string, connName string) *mongo.Collection {
 	return MongoClient.Database(dbName).Collection(connName)
 }
