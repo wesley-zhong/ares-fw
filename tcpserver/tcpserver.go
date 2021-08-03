@@ -12,7 +12,7 @@ import (
 
 type TcpServer struct {
 	*gnet.EventServer
-	Core *core.Core
+	Core *core.CoreWrap
 }
 
 func (es *TcpServer) OnInitComplete(server gnet.Server) (action gnet.Action) {
@@ -60,6 +60,7 @@ func (es *TcpServer) OnClosed(c gnet.Conn, err error) (action gnet.Action) {
 
 }
 func (es *TcpServer) Init(addr string) {
+	es.Core = &core.Core
 	ec := gnet.EncoderConfig{binary.BigEndian, 2, 2, true}
 	dc := gnet.DecoderConfig{binary.BigEndian, 0, 2, 0, 2}
 	err := gnet.Serve(es, addr, gnet.WithMulticore(true), gnet.WithCodec(gnet.NewLengthFieldBasedFrameCodec(ec, dc)))

@@ -2,7 +2,6 @@ package core
 
 import (
 	"bytes"
-	"fmt"
 	"reflect"
 	"strings"
 
@@ -53,32 +52,37 @@ func (msgIdMethod *MsgIdMethod) Call(bytebuffer *bytes.Buffer) {
 	msgIdMethod.callFun(&messageParam)
 }
 
-type Core struct {
+type CoreWrap struct {
 	ServiceMthodsMap map[string]*ServiceMethods
 	MsgIdMethodMap   map[int]*MsgIdMethod
 }
 
-func (core *Core) Init() {
+var Core = CoreWrap{}
+
+func Init() {
+	Core.Init()
+}
+
+func (core *CoreWrap) Init() {
 	core.ServiceMthodsMap = map[string]*ServiceMethods{}
 	core.MsgIdMethodMap = map[int]*MsgIdMethod{}
 }
 
-func (core *Core) RegisterMsgIdCall(msgId int, msg proto.Message, callFun MsgIdMethodFuc) {
+func (core *CoreWrap) RegisterMsgIdCall(msgId int, msg proto.Message, callFun MsgIdMethodFuc) {
 	msgIdMethod := &MsgIdMethod{msgId, msg, callFun}
 	core.MsgIdMethodMap[msgId] = msgIdMethod
+	log.Info("------register msgId =", msgId)
 }
 
-func (core *Core) RegisterController(contoller interface{}) {
+func (core *CoreWrap) RegisterController(contoller interface{}) {
 	rtype := reflect.TypeOf(contoller)
-	kd := rtype.Kind()
-	fmt.Println("kind = " + kd.String())
 	methods := rtype.NumMethod()
-	fmt.Println("methods count = ", methods)
+	log.Info("============register service =", rtype.Elem().Name(), "  methods count = ", methods, "  ============== begin")
 	for i := 0; i < methods; i++ {
 		method := rtype.Method(i)
 		var serviceName = strings.ToLower(rtype.Elem().Name())
 		var methodName = strings.ToLower(method.Name)
-		fmt.Println("---------- method_name = " + methodName + " service_name = " + serviceName)
+		log.Info("---------- method_name = ", methodName, " service_name = "+serviceName)
 		var val *ServiceMethods
 		var ok bool
 		if val, ok = core.ServiceMthodsMap[serviceName]; !ok {
@@ -98,6 +102,7 @@ func (core *Core) RegisterController(contoller interface{}) {
 		}
 		val.addMethod(&aresMethod)
 	}
+	log.Info("============register service =", rtype.Elem().Name(), "  methods count = ", methods, "  ============== end")
 }
 
 func (srviceMethods *ServiceMethods) addMethod(aresMethod *AresMethod) {
@@ -107,7 +112,7 @@ func (srviceMethods *ServiceMethods) addMethod(aresMethod *AresMethod) {
 	srviceMethods.AresMethodsMap[aresMethod.MethodName] = aresMethod
 }
 
-func (core *Core) GetCallFun(serviceName string, methodName string) *AresMethod {
+func (core *CoreWrap) GetCallFun(serviceName string, methodName string) *AresMethod {
 	var val *ServiceMethods
 	var ok bool
 	if val, ok = core.ServiceMthodsMap[serviceName]; !ok {

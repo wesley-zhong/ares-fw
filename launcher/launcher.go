@@ -14,22 +14,18 @@ import (
 func main() {
 	log.SetOutput(os.Stdout)
 	log.Info("main start")
-	webc := &controller.UserLogin{}
 
-	coreInst := core.Core{}
-	coreInst.Init()
+	//every modul init
+	core.Init()
 
 	//init msgId call
-	controller.Register(&coreInst)
-	//init rpc
-	coreInst.RegisterController(webc)
-	//init dal
+	controller.Init()
+
 	dal.InitRedisCluster("192.168.94.138:6379", "")
 	//start tcp server
 	gameServer := new(tcpServer.TcpServer)
-	gameServer.Core = &coreInst
 	go gameServer.Init("tcp4://:9000")
 	//start web server
 	webServer := webServer.AresWebapp{}
-	webServer.WebAppStart(&coreInst, "localhost:8080")
+	webServer.WebAppStart("localhost:8080")
 }

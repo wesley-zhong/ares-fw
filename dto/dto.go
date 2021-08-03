@@ -6,6 +6,11 @@ type UserInfo struct {
 	NickName string
 }
 
+type UserAccount struct {
+	Accout   string
+	Password string
+}
+
 type UserSession struct {
 	Account   string
 	Sig       string

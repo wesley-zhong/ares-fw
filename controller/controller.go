@@ -1,23 +1,30 @@
 package controller
 
 import (
-	log "github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/proto"
 	"netease.com/core"
-	"netease.com/gen"
 )
 
-// func callEnterRoomReq1(enterRoomReq *gen.EnterRoomReq) {
-// 	log.Info("------------ enterRoomReq ", enterRoomReq.RoomId)
+var BattleRoom = &BattleRoomWrap{}
 
-// }
-
-func callEnterRoomReq(message *proto.Message) {
-	enterRoomMsg := (*message).(*gen.EnterRoomReq)
-	log.Info("enterRoomMsg= ", enterRoomMsg.RoomId, " addr= ", message)
+func Init() {
+	BattleRoom.registerMe()
+	RegisterController()
 }
 
-func Register(core *core.Core) {
-	entroomType := new(gen.EnterRoomReq)
-	core.RegisterMsgIdCall(int(gen.MsgId_ENTER_ROOM_REQ), entroomType, callEnterRoomReq)
+/**
+msgId controller register
+*/
+func RegisterCallByMsgId(msgId int, msg proto.Message, callFun core.MsgIdMethodFuc) {
+	core.Core.RegisterMsgIdCall(msgId, msg, callFun)
+}
+
+/**
+rpc controller register
+*/
+
+func RegisterController() {
+	//------------room controller-----------------
+	webc := &UserLogin{}
+	core.Core.RegisterController(webc)
 }

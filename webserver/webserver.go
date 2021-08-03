@@ -16,7 +16,7 @@ var json = jsoniter.ConfigCompatibleWithStandardLibrary
 type AresWebapp struct {
 }
 
-func (webApp *AresWebapp) WebAppStart(coreInst *core.Core, addr string) {
+func (webApp *AresWebapp) WebAppStart(addr string) {
 	r := gin.Default()
 	r.POST("/", func(c *gin.Context) {
 		//inner rpc
@@ -26,7 +26,7 @@ func (webApp *AresWebapp) WebAppStart(coreInst *core.Core, addr string) {
 			return
 		}
 
-		aresMethod := coreInst.GetCallFun(rpcReq.ServiceName, rpcReq.MethodName)
+		aresMethod := core.Core.GetCallFun(rpcReq.ServiceName, rpcReq.MethodName)
 		if aresMethod == nil {
 			c.JSON(403, "server or method not found")
 			return
@@ -43,7 +43,7 @@ func (webApp *AresWebapp) WebAppStart(coreInst *core.Core, addr string) {
 		//inner restful or single server restful
 		serviceName := strings.ToLower(c.Params.ByName("serviceName"))
 		methodName := strings.ToLower(c.Params.ByName("methodName"))
-		aresMethod := coreInst.GetCallFun(serviceName, methodName)
+		aresMethod := core.Core.GetCallFun(serviceName, methodName)
 		if aresMethod == nil {
 			c.JSON(403, "server or method not found")
 			return
@@ -63,7 +63,7 @@ func (webApp *AresWebapp) WebAppStart(coreInst *core.Core, addr string) {
 
 		serviceName := c.Params.ByName("serviceName")
 		methodName := c.Params.ByName("methodName")
-		aresMethod := coreInst.GetCallFun(serviceName, methodName)
+		aresMethod := core.Core.GetCallFun(serviceName, methodName)
 		if aresMethod == nil {
 			c.JSON(403, "server or method not found")
 			return
