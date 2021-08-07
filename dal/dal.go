@@ -5,6 +5,7 @@ import (
 	"time"
 
 	log "github.com/sirupsen/logrus"
+	"netease.com/conf"
 
 	"github.com/go-redis/redis/v8"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,6 +16,17 @@ var Redis *redis.Client
 var MongoClient *mongo.Client
 var RedisCluster *redis.ClusterClient
 
+func InitRedisCluster() {
+	redisCluserConf := &conf.Config.Rediscluster
+	initRedisCluster(redisCluserConf.Addr, redisCluserConf.Password)
+}
+
+func InitMongodb() {
+	mongoDBConf := &conf.Config.Mongodb
+	initMongodb(mongoDBConf.Addr, mongoDBConf.User, mongoDBConf.Password)
+
+}
+
 func InitRedis(addr string, password string) {
 	Redis = redis.NewClient(&redis.Options{
 		Addr:     addr,
@@ -23,7 +35,7 @@ func InitRedis(addr string, password string) {
 	})
 }
 
-func InitRedisCluster(addr string, password string) {
+func initRedisCluster(addr string, password string) {
 	RedisCluster = redis.NewClusterClient(&redis.ClusterOptions{
 		Addrs: []string{addr},
 
@@ -33,7 +45,7 @@ func InitRedisCluster(addr string, password string) {
 	})
 }
 
-func InitMongodb(addr string, account string, password string) {
+func initMongodb(addr string, account string, password string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	opts := options.Client()

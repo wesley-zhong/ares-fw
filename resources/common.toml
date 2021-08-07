@@ -1,0 +1,8 @@
+[rediscluster]
+  addr ="192.168.94.138:6379"
+  user= "wesley"
+  password= "fjdkf2oi"
+[mongodb]
+  addr = "192.168.94.138:27017"
+  user= "dice_dev_user"
+  password= "3cdY61jr"

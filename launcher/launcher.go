@@ -4,6 +4,7 @@ import (
 	"os"
 
 	log "github.com/sirupsen/logrus"
+	"netease.com/conf"
 	"netease.com/controller"
 	"netease.com/core"
 	"netease.com/dal"
@@ -14,6 +15,7 @@ import (
 func main() {
 	log.SetOutput(os.Stdout)
 	log.Info("main start")
+	conf.InitConf()
 
 	//every modul init
 	core.Init()
@@ -21,8 +23,8 @@ func main() {
 	//init msgId call
 	controller.Init()
 
-	dal.InitRedisCluster("192.168.94.138:6379", "")
-	dal.InitMongodb("192.168.94.138:27017", "dice_dev_user", "3cdY61jr")
+	dal.InitRedisCluster()
+	dal.InitMongodb()
 	//start tcp server
 	gameServer := new(tcpServer.TcpServer)
 	go gameServer.Init("tcp4://:9000")

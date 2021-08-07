@@ -1,5 +1,7 @@
 module netease.com/dal
 
+replace netease.com/conf => ../conf
+
 go 1.16
 
 require (
