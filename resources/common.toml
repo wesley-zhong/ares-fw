@@ -6,3 +6,11 @@
   addr = "192.168.94.138:27017"
   user= "dice_dev_user"
   password= "3cdY61jr"
+  [ApolloConf]
+    AppID="game-service"
+    Cluster="defalut"
+    IP="http://dev.config.dice.shot.com"
+    NamespaceName="dice.common,dice.gameCnf,dice.versionControl"
+    IsBackupConfig= true
+    Secret=""
+

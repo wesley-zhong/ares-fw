@@ -11,7 +11,7 @@ func InitConf() {
 	viper.SetConfigName("common")
 	viper.AddConfigPath("../resources")
 	err := viper.ReadInConfig()
-	if err != err {
+	if err != nil {
 		log.Error("read config failed", err)
 		panic(err)
 	}
@@ -22,6 +22,7 @@ func InitConf() {
 type ConfigWrap struct {
 	Rediscluster RedisClusterConf
 	Mongodb      MongoDBConf
+	ApolloConf   ApolloConf
 }
 
 type RedisClusterConf struct {
@@ -36,18 +37,11 @@ type MongoDBConf struct {
 	Password string
 }
 
-func LoadConf(conf interface{}) error {
-	return nil
-}
-
-func LoadRedisConf() *RedisClusterConf {
-	reddisClusterConf := &RedisClusterConf{}
-
-	return reddisClusterConf
-}
-
-func LoadMongodConf() *MongoDBConf {
-	mongdbConf := &MongoDBConf{}
-
-	return mongdbConf
+type ApolloConf struct {
+	AppID          string
+	Cluster        string
+	IP             string
+	NamespaceName  string
+	IsBackupConfig bool
+	Secret         string
 }

@@ -16,10 +16,10 @@ func main() {
 	log.SetOutput(os.Stdout)
 	log.Info("main start")
 	conf.InitConf()
+	conf.ApolloInit()
 
 	//every modul init
 	core.Init()
-
 	//init msgId call
 	controller.Init()
 
